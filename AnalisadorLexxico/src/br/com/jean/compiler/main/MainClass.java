@@ -8,7 +8,7 @@ public class MainClass {
     public static void main(String[] args) {
         try {
             // Criação do objeto IsiScanner para ler o arquivo "input.isi"
-            IsiScanner sc = new IsiScanner("input.isi"); 
+        	IsiScanner sc = new IsiScanner("input.jian");
             TokenC token = null;
             
             // Laço para pegar todos os tokens até o final do arquivo
