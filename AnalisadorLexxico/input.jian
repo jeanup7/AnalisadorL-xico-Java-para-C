@@ -1,6 +1,56 @@
-int main () { 
-int fat=1,i,n; 
-scanf ("%d",&n); 
-for (i=1;i<=n;i++) fat=fat*i; 
-printf ("%d",fat); 
-} 
+#include <stdio.h>
+#include <stdlib.h>
+
+#define MAX 100
+
+// Função para calcular o fatorial de um número
+int fatorial(int n) {
+    int fat = 1;
+    for (int i = 1; i <= n; i++) {
+        fat *= i;
+    }
+    return fat;
+}
+
+// Função principal
+int main() {
+    int numero, resultado;
+
+    // Leitura de um número
+    printf("Digite um número para calcular seu fatorial: ");
+    scanf("%d", &numero);
+
+    // Verificação do número
+    if (numero < 0) {
+        printf("Número inválido! O número deve ser maior ou igual a zero.\n");
+        return 1;
+    }
+
+    // Chamada à função fatorial
+    resultado = fatorial(numero);
+
+    // Exibição do resultado
+    printf("O fatorial de %d é %d.\n", numero, resultado);
+
+    // Testando um operador lógico
+    if (numero % 2 == 0) {
+        printf("O número é par.\n");
+    } else {
+        printf("O número é ímpar.\n");
+    }
+
+    // Usando um array
+    int array[MAX];
+    for (int i = 0; i < MAX; i++) {
+        array[i] = i * i;  // Armazena o quadrado de cada número
+    }
+
+    // Imprime alguns valores do array
+    printf("Os primeiros 5 quadrados são: ");
+    for (int i = 0; i < 5; i++) {
+        printf("%d ", array[i]);
+    }
+    printf("\n");
+
+    return 0;
+}

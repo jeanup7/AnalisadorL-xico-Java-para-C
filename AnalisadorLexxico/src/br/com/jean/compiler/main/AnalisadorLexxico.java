@@ -4,28 +4,27 @@ import br.com.jean.compiler.exceptions.LexicalException;
 import br.com.jean.compiler.lexico.IsiScanner;
 import br.com.jean.compiler.lexico.TokenC;
 
-public class MainClass {
+public class AnalisadorLexxico {
+
     public static void main(String[] args) {
         try {
-            // Criação do objeto IsiScanner para ler o arquivo "input.isi"
-        	IsiScanner sc = new IsiScanner("input.jian");
+            // Criando o objeto IsiScanner para ler o arquivo "input.jian"
+            IsiScanner scanner = new IsiScanner("input.jian");
+
+            // Usando um laço para pegar todos os tokens até o final do arquivo
             TokenC token = null;
-            
-            // Laço para pegar todos os tokens até o final do arquivo
-            do {
-                token = sc.nextToken();  // Obtém o próximo token
-                if (token != null) {
-                    System.out.println(token); // Imprime o token (toString() será chamado automaticamente)
-                }
-            } while (token != null);
-            
-        } catch(LexicalException ex) {
-            // Caso ocorra um erro léxico (ex: erro na análise)
-            System.out.println("Lexical ERROR: " + ex.getMessage());
-            
+            while ((token = scanner.nextToken()) != null) {
+                // Aqui podemos exibir os tokens ou processá-los de outra forma
+                System.out.println(token); // Imprime o token (toString() será chamado automaticamente)
+            }
+
+        } catch (LexicalException lexException) {
+            // Se ocorrer um erro léxico (erro durante a análise do texto)
+            System.out.println("Lexical ERROR: " + lexException.getMessage());
         } catch (Exception ex) {
-            // Caso ocorra qualquer outro erro
+            // Qualquer outro tipo de erro genérico
             System.out.println("Generic ERROR: " + ex.getMessage());
         }
     }
 }
+

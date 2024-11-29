@@ -12,14 +12,21 @@ public class IsiScanner {
 
     public IsiScanner(String filename) {
         try {
+            // Imprime o caminho absoluto do arquivo
+            System.out.println("Tentando abrir o arquivo: " + Paths.get(filename).toAbsolutePath());
+            
             byte[] bytes = Files.readAllBytes(Paths.get(filename));
-            String txtContent = new String(bytes, StandardCharsets.UTF_8);
+            String txtContent = new String(bytes, StandardCharsets.UTF_8).trim();  // Trim para remover espaços extras
+            if (txtContent.isEmpty()) {
+                throw new LexicalException("Arquivo vazio!");
+            }
+            
             System.out.println("DEBUG----");
             System.out.println(txtContent);
             content = txtContent.toCharArray();
             position = 0;
         } catch (Exception ex) {
-            ex.printStackTrace();
+            throw new LexicalException("Erro ao ler o arquivo: " + ex.getMessage());
         }
     }
 
