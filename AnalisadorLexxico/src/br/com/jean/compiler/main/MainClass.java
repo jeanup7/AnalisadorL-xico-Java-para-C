@@ -4,40 +4,55 @@ import br.com.jean.compiler.exceptions.LexicalException;
 import br.com.jean.compiler.lexico.IsiScanner;
 import br.com.jean.compiler.lexico.TokenC;
 
+import java.util.LinkedHashMap;
+import java.util.Map;
+
 public class MainClass {
     public static void main(String[] args) {
         try {
-            // Criação do objeto IsiScanner para ler o arquivo "input.jian"
+            // Criação do objeto IsiScanner para ler o arquivo "input.c"
             IsiScanner sc = new IsiScanner("input.jian");
             TokenC token = null;
-            
-            // Imprimir cabeçalho da tabela
+            Map<String, Integer> symbolTable = new LinkedHashMap<>();
+
+            // Listagem dos tokens
+            System.out.println("LISTA DOS TOKENS");
             System.out.println("----------------------------------------------------------");
             System.out.println("| Tipo de Token                | Valor do Token         |");
             System.out.println("----------------------------------------------------------");
-            
-            // Laço para pegar todos os tokens até o final do arquivo
+
             do {
-                token = sc.nextToken();  // Obtém o próximo token
-                if (token != null) {
-                    // Ajustar a largura das colunas para alinhar bem os tokens e seus valores
-                    System.out.printf("| %-27s | %-22s |\n", getTokenTypeString(token.getType()), token.getText());
+                try {
+                    token = sc.nextToken();  // Obtém o próximo token
+                    if (token != null) {
+                        // Imprime o token
+                        System.out.printf("| %-27s | %-22s |\n", getTokenTypeString(token.getType()), token.getText());
+
+                        // Adiciona o token à tabela de símbolos
+                        symbolTable.put(token.getText(), symbolTable.getOrDefault(token.getText(), 0) + 1);
+                    }
+                } catch (LexicalException e) {
+                    System.out.println("Erro léxico encontrado: " + e.getMessage());
                 }
             } while (token != null);
-            
-            // Imprimir rodapé da tabela
+
             System.out.println("----------------------------------------------------------");
-            
-        } catch(LexicalException ex) {
-            // Caso ocorra um erro léxico (ex: erro na análise)
-            System.out.println("Lexical ERROR: " + ex.getMessage());
-            
+
+            // Exibe a tabela de símbolos
+            System.out.println("\nTABELA DE SÍMBOLOS");
+            System.out.println("----------------------------------------------------------");
+            System.out.println("| Símbolo                     | Quantidade             |");
+            System.out.println("----------------------------------------------------------");
+            for (Map.Entry<String, Integer> entry : symbolTable.entrySet()) {
+                System.out.printf("| %-27s | %-22d |\n", entry.getKey(), entry.getValue());
+            }
+            System.out.println("----------------------------------------------------------");
+
         } catch (Exception ex) {
-            // Caso ocorra qualquer outro erro
             System.out.println("Generic ERROR: " + ex.getMessage());
         }
     }
-    
+
     // Método auxiliar para obter o tipo do token como string
     private static String getTokenTypeString(int type) {
         switch (type) {
