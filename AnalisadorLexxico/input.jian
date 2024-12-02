@@ -1,6 +1,51 @@
-int main () { 
-int fat=1,i,n; 
-scanf ("%d",&n); 
-for (i=1;i<=n;i++) fat=fat*i; 
-printf ("%d",fat); 
+#include <stdio.h>
+#include <math.h>
+
+#define PI 3.14159
+#define MAX_POINTS 10
+
+typedef struct {
+    double x;
+    double y;
+} Point;
+
+void calculateDistances(Point points[], int n) {
+    for (int i = 0; i < n; i++) {
+        double distance = sqrt(points[i].x * points[i].x + points[i].y * points[i].y);
+        printf("Distância do ponto %d (%.2lf, %.2lf) até a origem: %.2lf\n", i + 1, points[i].x, points[i].y, distance);
+    }
+}
+
+int main() {
+    Point points[MAX_POINTS];
+    int n;
+
+    printf("Digite o número de pontos (1-%d): ", MAX_POINTS);
+    scanf("%d", &n);
+
+    if (n < 1 || n > MAX_POINTS) {
+        printf("Número inválido de pontos!\n");
+        return 1;
+    }
+
+    printf("Digite as coordenadas dos pontos (x e y):\n");
+    for (int i = 0; i < n; i++) {
+        printf("Ponto %d: ", i + 1);
+        scanf("%lf %lf", &points[i].x, &points[i].y);
+    }
+
+    printf("\nCalculando distâncias...\n");
+    calculateDistances(points, n);
+
+    printf("\nAgora, verificando pontos no círculo unitário (raio 1):\n");
+    for (int i = 0; i < n; i++) {
+        double distanceSquared = points[i].x * points[i].x + points[i].y * points[i].y;
+        if (distanceSquared <= 1.0) {
+            printf("Ponto %d (%.2lf, %.2lf) está dentro do círculo unitário.\n", i + 1, points[i].x, points[i].y);
+        } else {
+            printf("Ponto %d (%.2lf, %.2lf) está fora do círculo unitário.\n", i + 1, points[i].x, points[i].y);
+        }
+    }
+
+    return 0;
 }
